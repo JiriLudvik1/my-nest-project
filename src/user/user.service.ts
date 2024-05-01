@@ -18,12 +18,12 @@ export class UserService {
     if (user === null) {
       throw new NotFoundException(`User with id: [${paramId}] was not found!`);
     }
-    
+
     return user;
   }
 
   async getUsers(): Promise<User[]> {
-    return this.usersRepository.find();
+    return await this.usersRepository.find();
   }
 
   async createUser(user: User): Promise<User> {
@@ -35,6 +35,6 @@ export class UserService {
     user.updated_at = new Date();
     user.expectedAge = await this.agifyService.getAge(user.name)
 
-    return this.usersRepository.save(user);
+    return await this.usersRepository.save(user);
   }
 }

@@ -8,17 +8,17 @@ export class UserController {
     constructor(private userService: UserService) {}
 
     @Get('/:id')
-    getUser(@Param('id') id: number){
-        return this.userService.getUser(id);
+    async getUser(@Param('id') id: number){
+        return await this.userService.getUser(id);
     }
 
     @Get('/')
-    getUsers(){
-        return this.userService.getUsers();
+    async getUsers(){
+        return await this.userService.getUsers();
     }
 
     @Post()
-    createUser(@Body() user: User){
-        return this.userService.createUser(user);
+    async createUser(@Body() user: User){
+        return await this.userService.createUser(user);
     }
 }
