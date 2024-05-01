@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { AgifyService } from './agify.service';
 import { EmailValidationService } from './email-validation.service';
+import { EventsGateway } from 'src/events.gateway';
 
 @Injectable()
 export class UserService {
@@ -11,7 +12,8 @@ export class UserService {
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
     private readonly agifyService: AgifyService,
-    private readonly emailValidationService: EmailValidationService
+    private readonly emailValidationService: EmailValidationService,
+    private readonly eventsGateway: EventsGateway
   ) {}
 
   async getUser(paramId: number): Promise<User> {
@@ -39,8 +41,12 @@ export class UserService {
 
     user.created_at = new Date();
     user.updated_at = new Date();
-    user.expectedAge = await this.agifyService.getAge(user.name)
 
-    return await this.usersRepository.save(user);
+    user.expectedAge = await this.agifyService.getAge(user.name);
+    
+    const resultUser = await this.usersRepository.save(user);
+    this.eventsGateway.sendNotification(`New user created: ${resultUser.id}`)
+
+    return resultUser;
   }
 }

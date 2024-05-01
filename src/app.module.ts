@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import ormConfig from 'orm.config';
+import { EventsGateway } from './events.gateway';
 
 @Module({
   imports: [
