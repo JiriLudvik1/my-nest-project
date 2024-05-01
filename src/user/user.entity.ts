@@ -22,4 +22,7 @@ export class User {
 
   @Column({ type: 'text' })
   updated_at: Date;
+
+  @Column()
+  expectedAge: number
 }
