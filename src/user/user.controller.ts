@@ -1,6 +1,7 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, NotFoundException, Param, Post } from '@nestjs/common';
 import { UserService } from './user.service';
 import { User } from './user.entity';
+import { NotFoundError } from 'rxjs';
 
 @Controller('user')
 export class UserController {
